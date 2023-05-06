@@ -23,6 +23,12 @@
           "internalType": "uint64",
           "name": "expires",
           "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "mac",
+          "type": "string"
         }
       ],
       "name": "UpdateUser",
@@ -44,6 +50,11 @@
           "internalType": "uint64",
           "name": "expires",
           "type": "uint64"
+        },
+        {
+          "internalType": "string",
+          "name": "mac",
+          "type": "string"
         }
       ],
       "name": "setUser",

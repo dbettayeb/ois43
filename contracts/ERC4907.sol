@@ -9,6 +9,7 @@ contract ERC4907 is ERC721, IERC4907 {
   struct UserInfo {
     address user; // address of user role
     uint64 expires; // unix timestamp, user expires
+    string mac;
   }
 
   mapping(uint256 => UserInfo) internal _users;
@@ -23,7 +24,8 @@ contract ERC4907 is ERC721, IERC4907 {
   function setUser(
     uint256 tokenId,
     address user,
-    uint64 expires
+    uint64 expires,
+    string memory mac
   ) public virtual override {
     require(
       _isApprovedOrOwner(msg.sender, tokenId),
@@ -35,7 +37,7 @@ contract ERC4907 is ERC721, IERC4907 {
     require(info.expires < block.timestamp, "Already rented to someone");
     info.user = user;
     info.expires = expires;
-    emit UpdateUser(tokenId, user, expires);
+    emit UpdateUser(tokenId, user, expires,mac);
   }
 
   /// @notice Get the user address of an NFT
@@ -67,8 +69,11 @@ contract ERC4907 is ERC721, IERC4907 {
       override
       returns (uint256)
   {
+    if (uint256(_users[tokenId].expires) >= block.timestamp) {
       return _users[tokenId].expires;
-  }
+    } else {
+      return 0;
+    } }
 
   /// @dev See {IERC165-supportsInterface}.
   function supportsInterface(bytes4 interfaceId)
@@ -93,7 +98,7 @@ function _beforeTokenTransfer(
 
   if (from != to && _users[tokenId].user != address(0)) {
     delete _users[tokenId];
-    emit UpdateUser(tokenId, address(0), 0);
+    emit UpdateUser(tokenId, address(0), 0,"00");
   }
 }
 

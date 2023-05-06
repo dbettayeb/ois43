@@ -4,14 +4,14 @@ interface IERC4907 {
   // Logged when the user of a NFT is changed or expires is changed
   /// @notice Emitted when the `user` of an NFT or the `expires` of the `user` is changed
   /// The zero address for user indicates that there is no user address
-  event UpdateUser(uint256 indexed tokenId, address indexed user, uint64 expires);
+  event UpdateUser(uint256 indexed tokenId, address indexed user, uint64 expires,string mac);
 
   /// @notice set the user and expires of a NFT
   /// @dev The zero address indicates there is no user
   /// Throws if `tokenId` is not valid NFT
   /// @param user  The new user of the NFT
   /// @param expires  UNIX timestamp, The new user could use the NFT before expires
-  function setUser(uint256 tokenId, address user, uint64 expires) external;
+  function setUser(uint256 tokenId, address user, uint64 expires,string memory mac  ) external;
 
   /// @notice Get the user address of an NFT
   /// @dev The zero address indicates that there is no user or the user is expired
